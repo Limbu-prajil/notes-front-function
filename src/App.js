@@ -25,6 +25,27 @@ const App = () => {
 
   const addNote = (event) => {
     event.preventDefault();
+
+    if (newNote.trim() === '') {
+      setError('Note content cannot be empty.');
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+      return;
+    }
+  
+    const isDuplicateNote = notes.some(
+      (note) => note.content.toLowerCase() === newNote.toLowerCase()
+    );
+  
+    if (isDuplicateNote) {
+      setError(`Note '${newNote}' already exists.`);
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+      return;
+    }  
+
     const noteObject = {
       content: newNote,
       date: new Date().toISOString(),
